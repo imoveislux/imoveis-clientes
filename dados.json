@@ -1,0 +1,22 @@
+{
+  "corretores": [
+    { "id": "c001", "nome": "Valeria", "ativo": true },
+    { "id": "c002", "nome": "Joao", "ativo": true }
+  ],
+  "imoveis": [
+    {
+      "id": 1,
+      "titulo": "Apartamento Cabo Branco",
+      "preco": 480000,
+      "imagem": "https://via.placeholder.com/300",
+      "corretorId": "c001"
+    },
+    {
+      "id": 2,
+      "titulo": "Studio Beira Mar",
+      "preco": 590000,
+      "imagem": "https://via.placeholder.com/300",
+      "corretorId": "c002"
+    }
+  ]
+}
