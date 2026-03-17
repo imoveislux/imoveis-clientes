@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Imóveis</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Imóveis do Corretor</h1>
+
+<div id="imoveis"></div>
+
+<script>
+async function carregar() {
+
+  const id = window.location.hash.replace("#", "")
+
+  if (!id) {
+    document.getElementById("imoveis").innerHTML =
+      "<p>Acesse pelo link do corretor</p>"
+    return
+  }
+
+  const res = await fetch("dados.json")
+  const dados = await res.json()
+
+  const corretor = dados.corretores.find(c => c.id === id)
+
+  if (!corretor || !corretor.ativo) {
+    document.getElementById("imoveis").innerHTML =
+      "<p>Corretor indisponível</p>"
+    return
+  }
+
+  const lista = dados.imoveis.filter(i => i.corretorId === id)
+
+  const container = document.getElementById("imoveis")
+  container.innerHTML = ""
+
+  if (lista.length === 0) {
+    container.innerHTML = "<p>Nenhum imóvel encontrado</p>"
+    return
+  }
+
+  lista.forEach(imovel => {
+    const div = document.createElement("div")
+
+    div.innerHTML = `
+      <h3>${imovel.titulo}</h3>
+      <img src="${imovel.imagem}" width="200"><br>
+      <p>R$ ${imovel.preco}</p>
+      <a href="https://SEU-BASE44/?id=${id}&imovel=${imovel.id}">
+        Ver detalhes
+      </a>
+      <hr>
+    `
+
+    container.appendChild(div)
+  })
+}
+
+carregar()
+</script>
+
+</body>
+</html>
