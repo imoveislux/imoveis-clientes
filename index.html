@@ -13,7 +13,8 @@
 <script>
 async function carregar() {
 
-  const id = window.location.hash.replace("#", "")
+const params = new URLSearchParams(window.location.search);
+const corretorId = params.get("id");
 
   if (!id) {
     document.getElementById("imoveis").innerHTML =
