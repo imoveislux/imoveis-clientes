@@ -101,12 +101,32 @@ function renderizar(lista) {
     const div = document.createElement("div");
     div.className = "card";
 
+    const imagem =
+      imovel.imagens?.[0] ||
+      imovel.fotos?.[0] ||
+      imovel.imagem ||
+      imovel.foto ||
+      imovel.image ||
+      "";
+
+    const titulo =
+      imovel.titulo ||
+      imovel.nome ||
+      imovel.name ||
+      "Imóvel";
+
+    const preco =
+      imovel.preco ||
+      imovel.valor ||
+      imovel.price ||
+      "-";
+
     div.innerHTML = `
-      <img src="${imovel.imagens?.[0] || ''}" />
+      <img src="${imagem}" />
 
       <div class="card-content">
-        <h3>${imovel.titulo || "Imóvel"}</h3>
-        <p class="preco">R$ ${imovel.preco || "-"}</p>
+        <h3>${titulo}</h3>
+        <p class="preco">R$ ${preco}</p>
       </div>
     `;
 
