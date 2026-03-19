@@ -1,3 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Imóveis</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0B1218;
+  color:white;
+}
+
+#imoveis{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+.card{
+  background:#111a22;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:15px;
+}
+
+.card h3{
+  margin:0 0 10px 0;
+}
+
+.preco{
+  color:#00ffae;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div id="imoveis"></div>
+
 <script type="module">
 import { createClient } from "https://esm.sh/@base44/sdk";
 
@@ -8,23 +64,30 @@ const base44 = createClient({ appId: APP_ID });
 const params = new URLSearchParams(window.location.search);
 const corretorId = params.get("id");
 
-// função principal
 async function carregarImoveis() {
   try {
     const imoveis = await base44.entities.Imovel.list();
 
-    // filtra pelo corretor
+    console.log("TODOS:", imoveis);
+
+    // 🔥 ajuste automático (funciona com qualquer nome de campo)
     const filtrados = corretorId
-      ? imoveis.filter(i => i.corretor_id === corretorId)
+      ? imoveis.filter(i =>
+          i.corretor_id === corretorId ||
+          i.corretorId === corretorId ||
+          i.corretor === corretorId
+        )
       : imoveis;
 
+    console.log("FILTRADOS:", filtrados);
+
     renderizar(filtrados);
+
   } catch (erro) {
     console.error("Erro ao carregar imóveis:", erro);
   }
 }
 
-// renderizar na tela
 function renderizar(lista) {
   const container = document.getElementById("imoveis");
   container.innerHTML = "";
@@ -36,11 +99,15 @@ function renderizar(lista) {
 
   lista.forEach(imovel => {
     const div = document.createElement("div");
+    div.className = "card";
 
     div.innerHTML = `
-      <h3>${imovel.titulo || "Imóvel"}</h3>
-      <p>Preço: ${imovel.preco || "-"}</p>
-      <img src="${imovel.imagens?.[0] || ""}" width="200" />
+      <img src="${imovel.imagens?.[0] || ''}" />
+
+      <div class="card-content">
+        <h3>${imovel.titulo || "Imóvel"}</h3>
+        <p class="preco">R$ ${imovel.preco || "-"}</p>
+      </div>
     `;
 
     container.appendChild(div);
@@ -49,3 +116,6 @@ function renderizar(lista) {
 
 carregarImoveis();
 </script>
+
+</body>
+</html>
