@@ -13,10 +13,24 @@ padding:0;
 height:100%;
 }
 
+/* iframe */
 iframe{
 width:100%;
 height:100vh;
 border:none;
+}
+
+/* 🔥 CURATIVO PARA ESCONDER "VER IMÓVEIS" */
+.curativo-topo{
+position:fixed;
+top:120px; /* ajusta se necessário */
+left:50%;
+transform:translateX(-50%);
+width:200px;
+height:40px;
+background:#e6dfd9; /* mesma cor do fundo */
+z-index:9999;
+pointer-events:none;
 }
 </style>
 </head>
@@ -24,6 +38,9 @@ border:none;
 <body>
 
 <iframe id="app"></iframe>
+
+<!-- 🔥 ESCONDE O TEXTO AZUL -->
+<div class="curativo-topo"></div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
